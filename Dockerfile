@@ -1,9 +1,15 @@
+FROM maven:3.9-eclipse-temurin-17 AS build
+
+WORKDIR /app
+COPY . .
+
+RUN mvn clean package -DskipTests
+
 FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
-
-COPY  target/Royaltechnosoft-0.0.1-SNAPSHOT.jar /app/Royaltechnosoft-0.0.1-SNAPSHOT.jar
+COPY --from=build /app/target/*.jar app.jar
 
 EXPOSE 9999
 
-ENTRYPOINT [ "java","-jar","Royaltechnosoft-0.0.1-SNAPSHOT.jar" ]
+ENTRYPOINT ["java","-jar","app.jar"]
