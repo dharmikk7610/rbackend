@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
   mysql:
@@ -11,6 +11,7 @@ services:
       MYSQL_DATABASE: royalclasses
     volumes:
       - mysql_data:/var/lib/mysql
+    restart: always
 
   backend:
     build: .
@@ -19,15 +20,16 @@ services:
       - "9090:9999"
     depends_on:
       - mysql
+    restart: always
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/royalclasses
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/royalclasses?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
 
       SPRING_MAIL_HOST: smtp.gmail.com
       SPRING_MAIL_PORT: 587
-      SPRING_MAIL_USERNAME: prajapatidharmik2812@gmail.com
-      SPRING_MAIL_PASSWORD: zgbhthxkxtxwgioe
+      SPRING_MAIL_USERNAME: your_email@gmail.com
+      SPRING_MAIL_PASSWORD: your_app_password
 
 volumes:
   mysql_data:
